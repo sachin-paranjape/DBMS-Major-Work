@@ -2,3 +2,4 @@ __pycache__/
 retrieved_media/
 assets/
 library.db
+add_data.py

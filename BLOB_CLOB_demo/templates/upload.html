@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h2 style="margin-bottom: 2rem;">Add New Media</h2>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cover_image">Cover Image</label>
+            <input type="file" id="cover_image" name="cover_image" accept="image/*" required style="color: white;">
+        </div>
+
+        <div class="form-group">
+            <label for="audio_sample">Audio Sample</label>
+            <input type="file" id="audio_sample" name="audio_sample" accept="audio/*" required style="color: white;">
+        </div>
+
+        <div class="form-group">
+            <label for="content_text">Content Text (CLOB)</label>
+            <textarea id="content_text" name="content_text" required></textarea>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%;">Upload to Vault</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="media-view">
+    <div>
+        <img src="{{ url_for('get_image', media_id=media['id']) }}" alt="{{ media['title'] }}" class="media-cover">
+    </div>
+
+    <div class="media-content">
+        <h2>{{ media['title'] }}</h2>
+
+        <div class="audio-player">
+            <label>Audio Sample (BLOB)</label>
+            <audio controls style="width: 100%; margin-top: 0.5rem;">
+                <source src="{{ url_for('get_audio', media_id=media['id']) }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <label>Content (CLOB)</label>
+        <div class="text-content">
+            {{ media['content_text'] }}
+        </div>
+    </div>
+</div>
+{% endblock %}
