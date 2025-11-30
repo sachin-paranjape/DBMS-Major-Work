@@ -1,99 +1,101 @@
-# Flask Todo Application
+# Database Connectivity Demo using ORM (Python/Flask)
 
-A full-stack web application with user authentication and CRUD operations.
+This project demonstrates how to establish connectivity with a relational database (SQLite) using an **Object-Relational Mapper (ORM)** in a High-Level Language (Python). It uses a simple Todo application as a practical example to showcase database operations without writing raw SQL queries.
 
-## Features
-- User registration/login with Flask-Login
-- Personal todo management
-- Session-based authentication
-- SQLite database integration
+## Key Concepts Demonstrated
+
+### 1. Object-Relational Mapping (ORM)
+Instead of writing SQL tables manually, we define **Models** as Python classes. The ORM (SQLAlchemy) translates these classes into database tables.
+
+**Example Model (`app.py`):**
+```python
+class Todo(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    # ...
+```
+*   `class Todo` -> Table `todo`
+*   `db.Column` -> Table Column
+
+### 2. Database Session Management
+The application uses `db.session` to manage transactions. This ensures that a series of operations either all succeed or all fail (Atomicity).
+
+### 3. CRUD Operations via ORM
+The application performs Create, Read, Update, and Delete operations using Python methods:
+
+*   **Create (Insert)**:
+    ```python
+    todo = Todo(title=title, description=desc, user_id=current_user.id)
+    db.session.add(todo)
+    db.session.commit()
+    ```
+*   **Read (Select)**:
+    ```python
+    allTodo = Todo.query.filter_by(user_id=current_user.id).all()
+    ```
+*   **Update**:
+    ```python
+    todo = Todo.query.filter_by(sno=sno).first()
+    todo.title = new_title
+    db.session.commit()
+    ```
+*   **Delete**:
+    ```python
+    db.session.delete(todo)
+    db.session.commit()
+    ```
 
 ## Technologies Used
-- **Backend**: Flask, SQLAlchemy, Flask-Login, Flask-Bcrypt
-- **Frontend**: HTML5, CSS3, Jinja2 templates
-- **Database**: SQLite
-
-## Development Process
-
-- Used ChatGPT for scaffolding UI components and authentication routes
-- Applied LLM assistance for initial HTML templates and Flask route handlers
-- Implemented human review and testing for security and functionality
-
-## Usage
-
-1. **Register**: Create a new account with username and password
-2. **Login**: Access your personal dashboard
-3. **Add Todos**: Create new tasks with titles and descriptions
-4. **Manage**: View, edit, or delete your todos
-5. **Logout**: Secure session termination
-
-## Key Features Demonstrated
-
-- **Authentication System**: Complete user registration/login flow
-- **Database Operations**: CRUD operations with SQLAlchemy ORM
-- **Session Security**: Flask-Login integration with bcrypt hashing
-- **Template Inheritance**: Modular HTML templates using Jinja2
-- **Form Handling**: Secure form processing and validation
-
-## Dependencies
-
-All dependencies are listed in `requirements.txt`
-
-## Installation & Setup
-
-### Prerequisites
-- Python 3.7+ installed on your system
-- Git installed
-
-### Steps
-
-1. **Clone the repository:**
-git clone https://github.com/sachin-paranjape/flask-todo-app.git
-cd flask-todo-app
-
-2. **Create virtual environment:**
-virtualenv todo-env
-
-
-3. **Activate virtual environment:**
-**Windows (Command Prompt):**
-todo-env\Scripts\activate
-
-**Windows (PowerShell):**
-todo-env\Scripts\Activate.ps1
-
-**Linux/Mac:**
-source todo-env/bin/activate
-
-4. **Install dependencies:**
-pip install -r requirements.txt
-
-5. **Run the application:**
-python app.py
-
-6. **Open your browser and navigate to:**
-http://localhost:8000/
-
-
-### Deactivate Environment
-When you're done, deactivate the virtual environment:
-
-
+-   **Language**: Python 3
+-   **Web Framework**: Flask
+-   **ORM**: Flask-SQLAlchemy
+-   **Database**: SQLite (Embedded relational database)
+-   **Authentication**: Flask-Login & Flask-Bcrypt
 
 ## Project Structure
-
+```
 flask-todo-app/
-├── app.py # Main Flask application
-├── requirements.txt # Python dependencies
-├── templates/ # HTML templates
-│ ├── base.html # Base template with navbar
-│ ├── index.html # Home page
-│ ├── login.html # User login form
-│ ├── register.html # User registration
-│ ├── show.html # Display todos
-│ ├── add.html # Add new todo
-│ └── update.html # Edit existing todo
-├── todo-env/ # Virtual environment (auto-generated)
-└── instance/
-└── todo.db # SQLite database (auto-generated)
+├── app.py              # Contains Database Models (User, Todo) and Logic
+├── requirements.txt    # Dependencies
+├── instance/
+│   └── todo.db         # SQLite Database File (Created automatically)
+└── templates/          # HTML Views
+```
 
+## Running the Connectivity Demo
+
+### Prerequisites
+-   Python 3.7+
+-   Git
+
+### Steps
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/sachin-paranjape/flask-todo-app.git
+    cd flask-todo-app
+    ```
+
+2.  **Create and Activate Virtual Environment:**
+    ```bash
+    # Windows
+    virtualenv todo-env
+    todo-env\Scripts\activate
+    ```
+
+3.  **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Run the Application:**
+    ```bash
+    python app.py
+    ```
+    *This command will automatically create the `todo.db` database file if it doesn't exist, initializing the tables defined in `app.py`.*
+
+5.  **Verify Connectivity:**
+    -   Open `http://localhost:8000/`.
+    -   Register a user (Inserts into `User` table).
+    -   Add a Task (Inserts into `Todo` table).
+    -   View Tasks (Selects from `Todo` table).
